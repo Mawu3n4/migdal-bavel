@@ -12,7 +12,7 @@ For fun. And karma.
 TO-DO
 ---------
 
-* Reddit API (* reddit *)
-* Data crawler (* reddit *)
-* NLP (* draft *)
-* Ux (* UIv1 *)
+* Reddit API (_reddit _)
+* Data crawler (_reddit _)
+* NLP (_draft _)
+* Ux (_UIv1 _)
