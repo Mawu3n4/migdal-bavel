@@ -71,9 +71,11 @@ class MigdalBavel(object):
     def login(self):
         if ("username" in self.login_info
             and "password" in self.login_info):
+            print ("[+] Logging in as [%s] with password [%s]"
+                   % (self.login_info["username"], self.login_info["password"]))
             self.reddit.login(self.login_info["username"], self.login_info["password"])
         else:
-            print ("Error : - Could not log in, wrong login section.")
+            print ("[-] Error : Could not log in, wrong login section.")
 
 
     def load_config(self, path):
