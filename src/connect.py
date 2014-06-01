@@ -31,24 +31,21 @@ import time
 import datetime
 
 class MigdalBavel(object):
-    class Config(object):
+    class Config(SafeConfigParser):
         def __init__(self, *args, **kwargs):
-            super(MigdalBavel.Config, self).__init__(*args, **kwargs)
-
-            self.config_parser = SafeConfigParser()
+            SafeConfigParser.__init__(self, *args, **kwargs)
 
 
-        def read(self, path):
+        def read_(self, path):
             try:
-                self.config_parser.read(path)
-
+                self.read(path)
             except ParsingError as e:
                 print("ERROR : - Could not read configuration file at %s. Now exiting" % path)
                 raise e
 
 
         def get_section(self, section):
-            return (dict(self.config_parser.items(section)))
+            return (dict(self.items(section)))
 
 
 
@@ -81,7 +78,7 @@ class MigdalBavel(object):
     def load_config(self, path):
         for f in listdir(path):
             if isfile(join(path,f)):
-                self.config.read(join(path, f))
+                self.config.read_(join(path, f))
 
 
 
