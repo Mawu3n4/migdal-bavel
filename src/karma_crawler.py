@@ -34,17 +34,15 @@ def parse_sub_reddit(sr):
 
 #parse comment line
 def parse_comments(c):
-    comments = c.split()
-    if(comments[0] == "comment"):
-        return 0
-    else:
-        return int(comments[0])
+    coms = c.split()
+    return (coms[0] == "comment" ? 0 :
+                int(comms[0]))
 
 #return rank
 def get_rank(we):
     rank = we.find_element_by_xpath(".//*[@class = 'rank']").text
-    rank = rank.encode("utf_8")
-    return int(rank)
+    return int(rank.encode("utf_8"))
+
 
 #return score as upvotes - downvotes
 def get_score(we):
@@ -52,11 +50,13 @@ def get_score(we):
     up_votes = int(we.get_attribute('data-ups'))
     return up_votes - down_votes
 
+
 #return time stamp as float
 def get_time_stamp(we):
     tag_line = we.find_element_by_xpath(".//*[@class = 'tagline']").text
     tag_line = tag_line.encode("utf_8")
     return parse_time_stamp(tag_line)
+
 
 #return subreddit
 def get_sub_reddit(we):
@@ -64,11 +64,13 @@ def get_sub_reddit(we):
     tag_line = tag_line.encode("utf_8")
     return parse_sub_reddit(tag_line)
 
+
 #return number of comments
 def get_comments(we):
     comments_line = we.find_element_by_xpath(".//*[@class = 'first']")
     comments_line = comments_line.find_element_by_xpath("./a").text
     return parse_comments(comments_line)
+
 
 #return link to comments section
 def get_link(we):
@@ -76,11 +78,13 @@ def get_link(we):
     link = link.find_element_by_xpath("./a").get_attribute('href')
     return link.encode("utf_8")
 
+
 #return driver
 def get_driver():
     driver = webdriver.Firefox()
     driver.get("http://www.reddit.com")
     return driver
+
 
 #return all threads on current page
 def get_page_info(driver):
@@ -119,6 +123,7 @@ def get_candidates(pages):
 
     return candidates
 
+
 #partition for quicksort
 def partition(List, start, end, col_index):
     pivot = List[start][col_index]
@@ -143,6 +148,7 @@ def partition(List, start, end, col_index):
     List[right] = temp
     return right
 
+
 #quicksort list of lists
 def quick_sort(List, start, end, col_index):
     if start < end:
@@ -152,6 +158,7 @@ def quick_sort(List, start, end, col_index):
         quick_sort(List, start, pivot-1, col_index)
         quick_sort(List, pivot+1, end, col_index)
     return List
+
 
 #filter candidates as specified by user. return filtered list
 def filter_candidates(List, sort_by, max_points, max_comments, max_hours):
@@ -185,7 +192,7 @@ def filter_candidates(List, sort_by, max_points, max_comments, max_hours):
             i = i + 1
     return List
 
-#main program
+
 def main(pages, sort_by, max_points, max_comments, max_hours):
     candidates = get_candidates(pages)
     results = filter_candidates(candidates, sort_by, max_points, max_comments, max_hours)
@@ -196,16 +203,20 @@ def main(pages, sort_by, max_points, max_comments, max_hours):
 
 #number of pages to fetch
 pages = 5
+
 #sort list by 'rank', 'points', 'comments', 'time', or 'sub'. defaults to 'rank' if invalid, not case sensitive
 #sorts in descending order
 sort_by = "rank"
+
 #maximum points as int
 max_points = None
+
 #maximin comments as int
 max_comments = None
+
 #maximum hours as float. 1 hour 15 minutes = 1.25
 max_hours = 2
-#run program
+
 main(pages, sort_by, max_points, max_comments, max_hours)
 
 
