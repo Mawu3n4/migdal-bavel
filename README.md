@@ -21,3 +21,8 @@ TO-DO
 * Ux (_UIv1_)
     * Simple graphical configuration board
     * Generate XML or `.ini` config file
+
+Useful Links
+-------------
+
+[Visual representation of Markov's chains](http://setosa.io/blog/2014/07/26/markov-chains/index.html)
