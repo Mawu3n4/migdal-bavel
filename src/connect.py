@@ -25,16 +25,14 @@ from ConfigParser import SafeConfigParser, ParsingError
 from os import listdir
 from os.path import isfile, join
 
-import pprint
-
 import time
 import datetime
+
 
 class MigdalBavel(object):
     class Config(SafeConfigParser):
         def __init__(self, *args, **kwargs):
             SafeConfigParser.__init__(self, *args, **kwargs)
-
 
         def read_(self, path):
             try:
@@ -43,12 +41,8 @@ class MigdalBavel(object):
                 print("ERROR : - Could not read configuration file at %s. Now exiting" % path)
                 raise e
 
-
         def get_section(self, section):
             return (dict(self.items(section)))
-
-
-
 
     def __init__(self, *args, **kwargs):
         super(MigdalBavel, self).__init__(*args, **kwargs)
@@ -58,32 +52,31 @@ class MigdalBavel(object):
         self.login_info = self.config.get_section("login")
 
         try:
-            timestamp = datetime.datetime.fromtimestamp(time.time()).strftime("%Y%m%d%H%M%S")
-            self.reddit = praw.Reddit(user_agent = self.login_info["user_agent"] + timestamp)
+            timestamp = datetime.datetime.fromtimestamp(
+                time.time()
+            ) .strftime("%Y%m%d%H%M%S")
+            self.reddit = praw.Reddit(
+                user_agent=self.login_info["user_agent"] + timestamp
+            )
         except:
-            print ("Error : - Could not initiate PRAW, wrong login section.")
+            print("Error : - Could not initiate PRAW, wrong login section.")
             raise
 
-
     def login(self):
-        if ("username" in self.login_info
-            and "password" in self.login_info):
-            print ("[+] Logging in as [%s] with password [%s]"
-                   % (self.login_info["username"], self.login_info["password"]))
-            self.reddit.login(self.login_info["username"], self.login_info["password"])
+        if ("username" in self.login_info and "password" in self.login_info):
+            print("[+] Logging in as [{}]".format(self.login_info["username"]))
+            self.reddit.login(
+                self.login_info["username"], self.login_info["password"]
+            )
         else:
-            print ("[-] Error : Could not log in, wrong login section.")
-
+            print("[-] Error : Could not log in, wrong login section.")
 
     def load_config(self, path):
         for f in listdir(path):
-            if isfile(join(path,f)):
+            if isfile(join(path, f)):
                 self.config.read_(join(path, f))
-
-
 
 
 if __name__ == '__main__':
     bot = MigdalBavel()
-
     bot.login()
